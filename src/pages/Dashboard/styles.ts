@@ -46,7 +46,7 @@ export const Form = styled.form`
 `;
 
 export const Repos = styled.div`
-  margin-top: 80;
+  margin-top: 80px;
   max-width: 700px;
 
   a {
