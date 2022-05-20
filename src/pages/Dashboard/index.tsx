@@ -68,8 +68,8 @@ export const Dashboard: React.FunctionComponent = () => {
       { inputError && <Error>{ inputError }</Error>}
 
       <Repos>
-        { repos.map(repository => (
-          <React.Fragment key={repository.full_name}>
+        { repos.map((repository, index) => (
+          <React.Fragment key={repository.full_name + index}>
             <Link to={`/repositories/${encodeURIComponent(repository.full_name)}`} >
               <img
                 src={ repository.owner.avatar_url }
