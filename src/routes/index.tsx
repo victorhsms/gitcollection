@@ -1,13 +1,13 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route as Switch, Route } from 'react-router-dom';
 import { Dashboard } from '../pages/Dashboard';
 import { Repo } from '../pages/Repo';
 
 export const Routes: React.FunctionComponent = () => {
   return (
     <Switch>
-      <Route component={ Dashboard } path="/" exact />
-      <Route component={ Repo } path="/repositories" />
+      <Route element={ <Dashboard /> } path="/" />
+      <Route element={ <Repo /> } path="/repositories/:repository" />
     </Switch>
   );
 };
