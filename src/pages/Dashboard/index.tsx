@@ -37,24 +37,30 @@ export const Dashboard: React.FunctionComponent = () => {
       setInputError('Informe o username/repositório');
       return;
     }
+    try {
+      const response = await api.get<GithubRepository>(`repos/${newRepo}`);
+      const repository = response.data;
 
-    const response = await api.get<GithubRepository>(`repos/${newRepo}`);
-
-    const repository = response.data;
-
-    setRepos([...repos, repository]);
-    setNewRepo('');
+      setRepos([...repos, repository]);
+      setNewRepo('');
+      setInputError('');
+    } catch {
+      setInputError('Repositório não encontrado no GitHub')
+    }
   }
 
   return (
     <>
       <img src={ logo } alt="GitCollection" />
       <Title>Catálogo de repositórios do Github</Title>
-      <Form hasError={Boolean(inputError)} onSubmit={ handleAddRepo }>
+      <Form
+        hasError={Boolean(inputError)}
+        onSubmit={ handleAddRepo }
+      >
         <input
           placeholder='username/repository_name'
           onChange={ handleInputChange }
-          value={ newRepo }
+          value={newRepo}
         />
         <button type='submit'>Buscar</button>
       </Form>
@@ -64,7 +70,7 @@ export const Dashboard: React.FunctionComponent = () => {
       <Repos>
         { repos.map(repository => (
           <React.Fragment key={repository.full_name}>
-            <Link to={`/repositores/${encodeURIComponent(repository.full_name)}`} >
+            <Link to={`/repositories/${encodeURIComponent(repository.full_name)}`} >
               <img
                 src={ repository.owner.avatar_url }
                 alt={ repository.owner.login }
