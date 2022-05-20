@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-
-import { Header, RepoInfo } from './styles'; 
+import { api } from '../../services/api';
+import { Header, RepoInfo, Issues } from './styles'; 
 import logo from '../../assets/logo.svg';
 
 type IRepoParams = {
@@ -11,6 +11,16 @@ type IRepoParams = {
 };
 export const Repo: React.FC = () => {
   const { repository } = useParams<IRepoParams>();
+
+  useEffect(() => {
+    api
+      .get(`repos/${repository}`)
+      .then(response => console.log(response.data));
+
+    api
+      .get(`repos/${repository}/issues`)
+      .then(response => console.log(response.data));
+  }, [repository])
 
   return (
     <>
@@ -45,6 +55,15 @@ export const Repo: React.FC = () => {
           </li>
         </ul>
       </RepoInfo>
+      <Issues>
+        <Link to="/">
+          <div>
+            <strong></strong>
+            <p></p>
+          </div>
+          <FiChevronRight size={20} />
+        </Link>
+      </Issues>
     </>
   );
 };
